@@ -1,0 +1,6 @@
+selenium
+BeautifulSoup
+pickle
+tkinter
+sqlite3
+requests
