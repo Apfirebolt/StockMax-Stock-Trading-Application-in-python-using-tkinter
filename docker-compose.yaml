@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  db:
+    image: mysql:8.0  # Specify your desired MySQL version
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # Set a strong password for the root user
+      MYSQL_DATABASE: charts  # Name of your database
+      MYSQL_USER: chart_user  # Username for database access
+      MYSQL_PASSWORD: password  # Password for the user
+    ports:
+      - "3306:3306"  # Map container port 3306 to host port 3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "9000:80"  # Map container port 80 (phpMyAdmin) to host port 8080
+    depends_on:
+      - db  # Ensure phpMyAdmin starts after the database container
+    environment:
+      PMA_HOST: db  # Connect to the database service named "db"
+      MYSQL_ROOT_PASSWORD: password  # Set the same root password used in the db service
+
+volumes:
+  phpmyadmin_data:  # Optional volume to persist phpMyAdmin data
+
+# networks:
+#   # Define a network if your services need to communicate across containers
+#   # my-network:
+#   #   external: true
